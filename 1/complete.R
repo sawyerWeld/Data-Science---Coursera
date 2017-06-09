@@ -7,7 +7,6 @@ complete <- function(directory, id = 1:332) {
   for (i in files){
     f <- read.csv(paste('specdata/',i,sep=""))
     c <- f[complete.cases(f),]
-    c
     total[nrow(total)+1,] = c(f[1,]$ID,nrow(c))
   }
   total
