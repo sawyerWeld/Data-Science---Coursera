@@ -1,1 +1,3 @@
 *.csv
+*.Rhistory
+1/.RData
