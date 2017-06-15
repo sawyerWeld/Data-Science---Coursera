@@ -17,7 +17,9 @@ rankall <- function(outcome, num="best") {
   simp <- data.frame(simp)
   colnames(simp) <- c("name","state.code","attack","failure","pneumonia")
   states <- unique(simp$state.code)
+  hospital <- c()
   
+  # fill in data fram
   for (s in states) {
     simp.state <- droplevels(subset(simp, state.code == s))
     
@@ -43,7 +45,12 @@ rankall <- function(outcome, num="best") {
     }
     
     # get nth hospital
-    print(x[num,1])
+    hospital <- c(hospital, x[num,1])
   }
+  
+  # make data frame for output
+  df <- data.frame(hospital, states)
+  colnames(df) <- c("hospital","state")
+  df
 }
 
