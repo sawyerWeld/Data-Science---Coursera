@@ -15,11 +15,13 @@ best <- function(state, outcome) {
   simp <- data.frame(simp)
   colnames(simp) <- c("name","state.code","attack","failure","pneumonia")
   simp.state <- droplevels(subset(simp, state.code == state))
-  #coerce data to numbers and return name of min value
+  #coerce data to numbers
   colnum <- if(outcome == "heart attack") {3} else if(outcome == "heart failure") {4} else {5}
   simp.state$name <- as.character(simp.state$name)
   c <- as.character(simp.state[,colnum])
   c <- suppressWarnings(as.numeric(c))
+  
+  #get best hospital
   minrow <- which(c == min(c,na.rm=TRUE))
   simp.state[minrow,1]
 }
