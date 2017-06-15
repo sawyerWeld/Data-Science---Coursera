@@ -26,8 +26,11 @@ rankhospital <- function(state, outcome, num="best") {
   c <- suppressWarnings(as.numeric(c))
   x <- simp.state
   x[,colnum] <- c
-  #sort by outcome then by name
+  #sort by outcome then by name and remove rm
   x <- x[order(x[colnum],x[1]),]
+  bools <- is.na(x[,colnum])
+  m <- which(bools==c("FALSE"))
+  x <- x[m,]
   # hand best and worst num
   if (num == "best") {
     num <- 1
