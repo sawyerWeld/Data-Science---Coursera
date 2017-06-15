@@ -1,6 +1,6 @@
-# rankhospital(state, outcome, n) returns the nth best hospital in the state for the specified illness
+# best(state, outcome) returns the best hospital in the state for the specified illness
 
-rankhospital <- function(state, outcome) {
+best <- function(state, outcome, n) {
   # Read data
   data <- read.csv("outcome-of-care-measures.csv", colClass = "character")
   # Check that state and outcome are valid
@@ -15,15 +15,14 @@ rankhospital <- function(state, outcome) {
   simp <- data.frame(simp)
   colnames(simp) <- c("name","state.code","attack","failure","pneumonia")
   simp.state <- droplevels(subset(simp, state.code == state))
-  #coerce data to numbers and return name of min value
+  #coerce data to numbers
   colnum <- if(outcome == "heart attack") {3} else if(outcome == "heart failure") {4} else {5}
   simp.state$name <- as.character(simp.state$name)
   c <- as.character(simp.state[,colnum])
   c <- suppressWarnings(as.numeric(c))
-  
-  
-  
-  
-  minrow <- which(c == min(c,na.rm=TRUE))
-  simp.state[minrow,1]
+  x <- simp.state
+  #sort by outcome then by name
+  x <- x[order(x[colnum],x[1]),]
+  #get nth hospital
+  x[n]
 }
