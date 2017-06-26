@@ -1,5 +1,5 @@
 *.csv
 *.Rhistory
 *.RData
-3 - Getting and Cleaning Data/Couse Project/UCI HAR Dataset/*
+UCI HAR Dataset/
 !collegeneuralnet.RData
