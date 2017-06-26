@@ -1,6 +1,5 @@
 *.csv
 *.Rhistory
-1/.RData
-2 - Programming in R/Assignment1/.RData
 *.RData
+3 - Getting and Cleaning Data/Couse Project/UCI HAR Dataset
 !collegeneuralnet.RData
