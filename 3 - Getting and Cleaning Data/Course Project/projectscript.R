@@ -1,5 +1,7 @@
 # Script for Course Project
 
+library(plyr)
+
 # Ensure dataset is present
 
 filename <- "raw_dataset"
@@ -57,10 +59,14 @@ rm(testingX,testingY,testingSubjects)
 
 data <- rbind(test,train)
 colnames(data) <- c('subject','activity',featuresMeanStd.names)
-
 rm(test,train)
 
+# Now have to make the tidy dataset
+# Set first 2 columns to factors for melting
 
-
-
-
+data$activity <- factor(data$activity, levels = activities[,1], labels = activities[,2])
+data$subject <- as.factor(data$subject)
+data.tidy <- aggregate(data[,3:81], by = list(subject = data$subject, activity = data$activity),FUN = mean)
+rm(data)
+data.tidy <- arrange(data.tidy, subject, activity)
+write.table(x = data.tidy, file = "tidydataset.txt", row.names = FALSE)
