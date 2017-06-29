@@ -1,5 +1,5 @@
 *.csv
 *.Rhistory
 *.RData
-*/*/*/UCI HAR Dataset/
+ DataScience-Coursera/3 - Getting and Cleaning Data/Course Project/UCI HAR DATASET/*
 !collegeneuralnet.RData
