@@ -62,7 +62,6 @@ colnames(data) <- c('subject','activity',featuresMeanStd.names)
 rm(test,train)
 
 # Now have to make the tidy dataset
-# Set first 2 columns to factors for melting
 
 data$activity <- factor(data$activity, levels = activities[,1], labels = activities[,2])
 data$subject <- as.factor(data$subject)
