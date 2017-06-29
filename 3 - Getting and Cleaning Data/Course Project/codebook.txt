@@ -1,0 +1,34 @@
+Codebook: Explanation of variables
+----------------------------------
+
+The following variables were used for organization in the study:
+
+Subject - Integer assigned to each study participant
+Activity - Factor with the following labels: WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING 
+
+The following variables were taken from wearables and fast fourier transformed:
+
+tBodyAcc-XYZ
+tGravityAcc-XYZ
+tBodyAccJerk-XYZ
+tBodyGyro-XYZ
+tBodyGyroJerk-XYZ
+tBodyAccMag
+tGravityAccMag
+tBodyAccJerkMag
+tBodyGyroMag
+tBodyGyroJerkMag
+fBodyAcc-XYZ
+fBodyAccJerk-XYZ
+fBodyGyro-XYZ
+fBodyAccMag
+fBodyAccJerkMag
+fBodyGyroMag
+fBodyGyroJerkMag
+
+The variables in the tidy dataset are the averages for each subject/activity combination with the following function applied:
+
+mean(): Mean value
+std(): Standard deviation
+
+Variables in the dataset are a combination of FFT'd data suffixed with either 'Mean' to represent mean() or 'Std' to represent std()
