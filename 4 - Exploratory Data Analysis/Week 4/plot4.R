@@ -1,4 +1,6 @@
-# Load in data (in plot1.R)
+# Load in data
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
 
 # Require ggplot2
 library(ggplot2)
