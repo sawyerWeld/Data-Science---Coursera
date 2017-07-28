@@ -5,19 +5,45 @@ date: "July 28, 2017"
 output: html_document
 ---
 
-## Load in the data
-```{r, cache=TRUE}
+### Load in the data and required libraries
+```{r}
+library(ggplot2)
+
 data <- read.csv("activity.csv")
-summary(data)
+```
+
+### Aggregate and plot total steps per day
+```{r}
+steps.by.date <- aggregate(steps ~ date, data = data, FUN = sum)
+ggplot(data = steps.by.date, aes(steps)) + geom_histogram(bins = 30) + xlab("Steps") + ylab("Count")
+```
+
+### Mean and Median steps per day
+```{r}
+mean(steps.by.date$steps)
+median(steps.by.date$steps)
+```
+
+### Average steps per 5-minute interval
+```{r}
+steps.by.time <- aggregate(steps ~ interval, data = data, FUN = mean)
+plot(steps.by.time)
 ```
 
 
 
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
+
+
+
+
+
+
+
+
+
 
 ## R Markdown
 
