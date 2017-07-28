@@ -57,12 +57,12 @@ The interval with the highest activity was 8:35 - 8:40
 
 ## Imputing Missing Data
 
-First copy the original dataset
+First copy the original data set
 ```{r}
 data.imputed <- data
 ```
 
-Then change all NA's to the mean value (excluding NA's)
+Then change all Na's to the mean value (excluding Na's)
 ```{r}
 mean.steps <- mean(data$steps, na.rm = TRUE)
 data.imputed[is.na(data.imputed)] <- mean.steps

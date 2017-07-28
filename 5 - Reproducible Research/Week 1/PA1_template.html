@@ -160,9 +160,9 @@ ggplot(data = steps.by.time, aes(interval, steps)) +
 </div>
 <div id="imputing-missing-data" class="section level2">
 <h2>Imputing Missing Data</h2>
-<p>First copy the original dataset</p>
+<p>First copy the original data set</p>
 <pre class="r"><code>data.imputed &lt;- data</code></pre>
-<p>Then change all NA’s to the mean value (excluding NA’s)</p>
+<p>Then change all Na’s to the mean value (excluding Na’s)</p>
 <pre class="r"><code>mean.steps &lt;- mean(data$steps, na.rm = TRUE)
 data.imputed[is.na(data.imputed)] &lt;- mean.steps</code></pre>
 <p>Histogram of steps per day including imputed values</p>
