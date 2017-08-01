@@ -44,32 +44,87 @@ head(combined, 10)
 
 #### Economic Impact
 
-This data is much more difficult to work with because ~~~
+This data is much more difficult to work with because there is no single variable describing property damage or crop damage, but rather each of those variables has a base value and a multiplier. CROPDMGEXP and PROPDMGEXP modify the value of CROPDMG and PROPDMG respectively. Furthermore, the multipliers are encoded in a strange way. When can see the modifiers with the following code:
 
 ```{r}
 econdata <- stormdata[c('EVTYPE','CROPDMG','CROPDMGEXP','PROPDMG','PROPDMGEXP')]
-replace <- function(x) {
-   if (x == "\\?") {
-     "10"
-   } else if (x == 1)
-   {
-     "1000"
-   }
-}
-# AHHHH
+econdata$CROPDMGEXP <- toupper(econdata$CROPDMGEXP)
+econdata$PROPDMGEXP <- toupper(econdata$PROPDMGEXP)
 
+sort(unique(econdata$PROPDMGEXP))
+
+```
+
+We can replace these modifiers with their corresponding numeric values and remove incomplete cases. I've queried the first 5 rows of the multipliers to confirm the substitution worked successfully. Note that this code block is computationally expensive and benefits from caching.
+
+```{r, cache = T}
+EXPkey <-  c("\"\"" = 10^0,
+             "-" = 10^0, 
+             "+" = 10^0,
+             "0" = 10^0,
+             "1" = 10^1,
+             "2" = 10^2,
+             "3" = 10^3,
+             "4" = 10^4,
+             "5" = 10^5,
+             "6" = 10^6,
+             "7" = 10^7,
+             "8" = 10^8,
+             "9" = 10^9,
+             "H" = 10^2,
+             "K" = 10^3,
+             "M" = 10^6,
+             "B" = 10^9)
+econdata$CROPDMGEXP <- EXPkey[econdata$CROPDMGEXP]
+econdata <- subset(econdata, !is.na(econdata$CROPDMGEXP))
+
+econdata$PROPDMGEXP <- EXPkey[econdata$PROPDMGEXP]
+econdata <- subset(econdata, !is.na(econdata$PROPDMGEXP))
+
+head(econdata$CROPDMGEXP,5)
+head(econdata$PROPDMGEXP,5)
+```
+
+We can now multiply each of the numeric values by their multiplier in order to obtain their true values.
+
+```{r}
+econdata$crop.damage <- econdata$CROPDMG * econdata$CROPDMGEXP
+econdata$property.damage <- econdata$PROPDMG * econdata$PROPDMGEXP
+
+crop.sum <- aggregate(crop.damage ~ EVTYPE, data = econdata, FUN = "sum")
+property.sum <- aggregate(property.damage ~ EVTYPE, data = econdata, FUN = "sum")
+econ.sums <- cbind(crop.sum, property.sum$property.damage)
+
+colnames(econ.sums) <- c("event.type","crop.damage","property.damage")
+econ.sums$total.damage <- econ.sums$crop.damage + econ.sums$property.damage
+econ.sums <- arrange(econ.sums, -total.damage)
+
+head(econ.sums, 5)
 ```
 
 ## Results
 ```{r}
-x <- combined[1:10,]
+x <- combined[1:7,]
 x$EVTYPE <- factor(x$EVTYPE, levels=x$EVTYPE) # So ggplot doesnt alphabatize x-axis 
 ggplot(x, aes(EVTYPE, SUM)) + 
+  theme_bw() +
   geom_bar(stat="identity") + 
+  xlab(NULL) +
+  ylab("Injuries + Fatalities") +
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
-
 ```
+Tornadoes are responsible for the most personal harm by a wide margin
 
+```{r}
+x <- econ.sums[1:7,]
+x$EVTYPE <- factor(x$event.type, levels=x$event.type) # So ggplot doesnt alphabatize x-axis 
+ggplot(x, aes(event.type, total.damage)) + 
+  theme_bw() +
+  geom_bar(stat="identity") + 
+  xlab(NULL) +
+  ylab("Property Damage + Crop Damage") +
+  theme(axis.text.x=element_text(angle = 45, hjust = 1))
+```
 
 Present results
 At least one plot, no more than 3
