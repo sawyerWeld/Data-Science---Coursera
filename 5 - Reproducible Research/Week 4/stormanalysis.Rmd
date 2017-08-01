@@ -1,21 +1,53 @@
 ---
-title: "Effects of Storms on Population Health and Economics, 1950 - 2011"
-output: github_document
+title: "Immediate Effects of Storms on Population Health and Economics, 1950 - 2011"
+output: html_document
 ---
 
 ## Synopsis
 
 Synopsis: Immediately after the title, there should be a synopsis which describes and summarizes your analysis in at most 10 complete sentences.
 
+```{r, message = FALSE}
+library(dplyr)
+```
+
 ## Data Processing
 
 There should be a section titled Data Processing which describes (in words and code) how the data were loaded into R and processed for analysis. In particular, your analysis must start from the raw CSV file containing the data. You cannot do any preprocessing outside the document. If preprocessing is time-consuming you may consider using the cache = TRUE option for certain code chunks.
 
+First the data are loaded in from the bz2 compressed csv provided. This operation is large and should be cached.
+
 ```{r, cache = T}
-data <- read.csv("StormData.csv.bz2")
+stormdata <- read.csv("StormData.csv.bz2")
 ```
 
+#### Population Health
+
+To see how specific event types affect population health, fatalities, injuries, and their sum should be aggregated against event types:
+
+```{r}
+fatalities <- aggregate(FATALITIES ~ EVTYPE, data = stormdata, FUN = "sum")
+injuries <- aggregate(INJURIES ~ EVTYPE, data = stormdata, FUN = "sum")
+combined <- aggregate(INJURIES + FATALITIES ~ EVTYPE, data = stormdata, FUN = "sum")
+combined <- cbind(combined, fatalities$FATALITIES, injuries$INJURIES)
+
+colnames(combined) <- c('EVTYPE','SUM','FATALITIES','INJURIES')
+combined <- arrange(combined, -SUM)
+```
+
+We can now easily see the storm event types with the largest affects on population help:
+
+```{r}
+head(combined, 10)
+```
+
+#### Economic Impact
+
+
+
 ## Results
+
+
 
 Present results
 At least one plot, no more than 3
