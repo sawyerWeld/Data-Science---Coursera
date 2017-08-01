@@ -9,6 +9,7 @@ Synopsis: Immediately after the title, there should be a synopsis which describe
 
 ```{r, message = FALSE}
 library(dplyr)
+library(ggplot2)
 ```
 
 ## Data Processing
@@ -55,12 +56,19 @@ replace <- function(x) {
      "1000"
    }
 }
-
+# AHHHH
 
 ```
 
 ## Results
+```{r}
+x <- combined[1:10,]
+x$EVTYPE <- factor(x$EVTYPE, levels=x$EVTYPE) # So ggplot doesnt alphabatize x-axis 
+ggplot(x, aes(EVTYPE, SUM)) + 
+  geom_bar(stat="identity") + 
+  theme(axis.text.x=element_text(angle = 45, hjust = 1))
 
+```
 
 
 Present results
