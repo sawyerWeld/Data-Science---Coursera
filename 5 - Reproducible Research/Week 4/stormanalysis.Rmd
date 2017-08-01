@@ -43,7 +43,18 @@ head(combined, 10)
 
 #### Economic Impact
 
+This data is much more difficult to work with because ~~~
 
+```{r}
+econdata <- stormdata[c('EVTYPE','CROPDMG','CROPDMGEXP','PROPDMG','PROPDMGEXP')]
+replace <- function(x) {
+  sub("\\?",0,x)
+  sub("\\+",0,x)
+  sub("-",0,x)
+}
+
+
+```
 
 ## Results
 
