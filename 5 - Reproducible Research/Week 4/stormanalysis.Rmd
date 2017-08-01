@@ -1,6 +1,6 @@
 ---
 title: "Immediate Effects of Storms on Population Health and Economics, 1950 - 2011"
-output: html_document
+output: github_document
 ---
 
 ## Synopsis
@@ -103,6 +103,8 @@ head(econ.sums, 5)
 ```
 
 ## Results
+
+#### Population Health
 ```{r}
 x <- combined[1:7,]
 x$EVTYPE <- factor(x$EVTYPE, levels=x$EVTYPE) # So ggplot doesnt alphabatize x-axis 
@@ -113,11 +115,18 @@ ggplot(x, aes(EVTYPE, SUM)) +
   ylab("Injuries + Fatalities") +
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ```
-Tornadoes are responsible for the most personal harm by a wide margin
+
+Tornadoes are responsible for the most personal harm by a wide margin. It's interesting to note that floods and flash floods are classified seperately. We can also view the total instances of personal harm from all sources:
+
+```{r}
+sum(combined$SUM)
+```
+
+#### Economic Impact
 
 ```{r}
 x <- econ.sums[1:7,]
-x$EVTYPE <- factor(x$event.type, levels=x$event.type) # So ggplot doesnt alphabatize x-axis 
+x$event.type <- factor(x$event.type, levels=x$event.type) # So ggplot doesnt alphabatize x-axis 
 ggplot(x, aes(event.type, total.damage)) + 
   theme_bw() +
   geom_bar(stat="identity") + 
@@ -126,5 +135,8 @@ ggplot(x, aes(event.type, total.damage)) +
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ```
 
-Present results
-At least one plot, no more than 3
+Flooding is responsible for the most economic damage by a wide margin. It's interesting to note that hurricane/typhoon and typhoon are clasified seperately. We can also view the total economic damage from all sources:
+
+```{r}
+sum(econ.sums$total.damage)
+```
