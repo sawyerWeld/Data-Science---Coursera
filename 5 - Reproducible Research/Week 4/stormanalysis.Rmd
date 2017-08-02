@@ -1,11 +1,12 @@
 ---
 title: "Immediate Effects of Storms on Population Health and Economics, 1950 - 2011"
+author: Sawyer Welden
 output: github_document
 ---
 
 ## Synopsis
 
-Synopsis: Immediately after the title, there should be a synopsis which describes and summarizes your analysis in at most 10 complete sentences.
+The provided data set lists storm events and their health and economic consequences between 1950 and 2011. In the following analysis we tidy up the data and examine the storm event types which contribute most to health and economic damage.
 
 ```{r, message = FALSE}
 library(dplyr)
@@ -13,8 +14,6 @@ library(ggplot2)
 ```
 
 ## Data Processing
-
-There should be a section titled Data Processing which describes (in words and code) how the data were loaded into R and processed for analysis. In particular, your analysis must start from the raw CSV file containing the data. You cannot do any preprocessing outside the document. If preprocessing is time-consuming you may consider using the cache = TRUE option for certain code chunks.
 
 First the data are loaded in from the bz2 compressed csv provided. This operation is large and should be cached.
 
@@ -85,6 +84,7 @@ head(econdata$CROPDMGEXP,5)
 head(econdata$PROPDMGEXP,5)
 ```
 
+Note: The code for the formation of EXPkey was found when I was searching for a way to create C-style maps in R. I had a different solution but this one is much more elegant. The differences between OOP and R are one of the most interesting parts of R to me but also the biggest hindrance.
 We can now multiply each of the numeric values by their multiplier in order to obtain their true values.
 
 ```{r}
@@ -116,7 +116,7 @@ ggplot(x, aes(EVTYPE, SUM)) +
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ```
 
-Tornadoes are responsible for the most personal harm by a wide margin. It's interesting to note that floods and flash floods are classified seperately. We can also view the total instances of personal harm from all sources:
+Tornadoes are responsible for the most personal harm by a wide margin. It's interesting to note that floods and flash floods are classified separately. We can also view the total instances of personal harm from all sources:
 
 ```{r}
 sum(combined$SUM)
@@ -135,7 +135,7 @@ ggplot(x, aes(event.type, total.damage)) +
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ```
 
-Flooding is responsible for the most economic damage by a wide margin. It's interesting to note that hurricane/typhoon and typhoon are clasified seperately. We can also view the total economic damage from all sources:
+Flooding is responsible for the most economic damage by a wide margin. It's interesting to note that hurricane/typhoon and typhoon are classified separately. We can also view the total economic damage from all sources:
 
 ```{r}
 sum(econ.sums$total.damage)
