@@ -1,1 +1,0 @@
-Spent time working in swirl R library doing stats rather than programming anything so thats why no commits.
