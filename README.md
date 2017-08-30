@@ -10,7 +10,4 @@ This repo is a way for organize my work for the courses and show my ability to p
 4. Exploratory Data Analysis
 5. Reproducible Research
 6. Statistical Inference
-7. Regression Models
-8. Practical Machine Learning
-9. Developing Data Products
-10. Capstone
+
